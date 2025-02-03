@@ -100,9 +100,12 @@ resource "aws_elb" "app" {
     unhealthy_threshold = 2
   }
 
-  instances = aws_autoscaling_group.app.instances
-
   tags = {
     Name = "app-elb"
   }
+}
+
+resource "aws_autoscaling_attachment" "asg_attachment" {
+  autoscaling_group_name = aws_autoscaling_group.app.name
+  elb                    = aws_elb.app.name
 }
